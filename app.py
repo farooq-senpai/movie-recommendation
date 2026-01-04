@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pickle
 import pandas as pd
@@ -23,12 +24,13 @@ def recommend(movie):
     return recommended_movies, recommended_movies_posters
 
 # Load Data
-movies_list = pickle.load(open('movie_list.pkl', 'rb'))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+movies_list = pickle.load(open(os.path.join(BASE_DIR, 'movie_list.pkl'), 'rb'))
 movies = pd.DataFrame(movies_list)
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+similarity = pickle.load(open(os.path.join(BASE_DIR, 'similarity.pkl'), 'rb'))
 
 # UI
-st.title('🎬 Movie Recommender System')
+st.title('Movie Recommender System')
 
 selected_movie_name = st.selectbox(
     'Select a movie to get recommendations:',
@@ -43,3 +45,4 @@ if st.button('Show Recommendation'):
         with cols[i]:
             st.text(recommended_movie_names[i])
             st.image(recommended_movie_posters[i])
+
